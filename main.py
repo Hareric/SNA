@@ -6,7 +6,7 @@ import xlwt
 
 def write_data(file_name, node_list, link_list):
     """
-    将节点的信息重新保存一份带node排名
+    将节点的信息重新保存一份带value的
     :param link_list:
     :param file_name: 保存路径
     :param node_list:
@@ -17,11 +17,14 @@ def write_data(file_name, node_list, link_list):
     table_1 = file_0.add_sheet('link')
     table_0.write(0, 0, 'node')
     table_0.write(0, 1, 'label')
-    table_0.write(0, 2, 'rank')
+    table_0.write(0, 2, 'value')
     for i in range(node_list.__len__()):
         table_0.write(i + 1, 0, i)
         table_0.write(i + 1, 1, node_list[i].label)
-        table_0.write(i + 1, 2, node_list[i].rank)
+        if node_list[i].is_topK:
+            table_0.write(i + 1, 2, 5)
+        else:
+            table_0.write(i + 1, 2, 1)
     table_1.write(0, 0, 'from')
     table_1.write(0, 1, 'to')
     table_1.write(0, 2, 'weight')

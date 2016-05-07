@@ -120,7 +120,7 @@ class MakeGraph:
         self.node_list[node_list[0].node_index].is_topK = True
         value = node_list[0].value
         for node in node_list[1:]:
-            if node.value > value * 0.5 and topK_list.__len__() < self.user_num * 0.1:
+            if node.value > value * 0.3 and topK_list.__len__() < self.user_num * 0.1:
                 self.node_list[node.node_index].is_topK = True
                 topK_list.append(node)
                 value = node.value
