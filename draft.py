@@ -1,0 +1,1 @@
+com = walktrap.community(g2, steps = 10)V(g2)$sg=com$membershipV(g2)$color = rainbow(max(V(g2)$sg),alpha=0.8)[V(g2)$sg]plot(g2,layout=layout.fruchterman.reingold,vertex.size=1,vertex.color=V(g2)$color,edge.width=0.4,edge.arrow.size=0.08,edge.color = rgb(1,1,1,0.4),vertex.frame.color=NA,margin= rep(0, 4),vertex.label=NA)
