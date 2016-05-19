@@ -69,7 +69,8 @@ class MakeGraph:
             self.rank = int
             self.group = int
             self.is_topK = False
-
+            self.influence = float
+            
     def __init__(self, node_links, node_labels_dict):
         self.users_link = node_links  # 节点权值矩阵
         self.user_num = len(node_labels_dict)  # 节点个数
@@ -128,6 +129,26 @@ class MakeGraph:
                 break
         return topK_list
 
+    def __calc_influence(self):
+        """
+        对每个节点的value值进行归一化作为用户影响力评估
+        :return:
+        """
+        max_v = max([n.value for n in self.node_list])
+        min_v = min([n.value for n in self.node_list])
+        dis = (max_v - min_v) / 5
+        for node in self.node_list:
+            if node.value < min_v + dis:
+                node.influence = 1
+            elif node.value < min_v + dis * 2:
+                node.influence = 2
+            elif node.value < min_v + dis * 3:
+                node.influence = 3
+            elif node.value < min_v + dis * 4:
+                node.influence = 4
+            else:
+                node.influence = 5
+
     def divide(self):
         """
         使用igraph包中BGLL算法对已构建好的图进行社区检测
@@ -137,6 +158,7 @@ class MakeGraph:
         graph, weights = self.__create_graph()
         self.__calculate_rank()
         self.__find_topK()
+        self.__calc_influence()
         divide_result = graph.community_walktrap(weights=weights, steps=4).as_clustering()
         # divide_result = graph.community_multilevel(weights=weights)
         for index, community in enumerate(divide_result):
